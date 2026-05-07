@@ -68,3 +68,11 @@ jobs:
         run: |
           tar -czf borders-macos-${{ matrix.arch }}.tar.gz bin/borders docs/borders.1
           gh release upload ${{ github.ref_name }} borders-macos-${{ matrix.arch }}.tar.gz --clobber
+
+      - name: Update Homebrew formula
+        uses: dawidd6/action-homebrew-bump-formula@v7
+        if: github.ref_type == 'tag'
+        with:
+          token: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+          tap: FelixKratz/homebrew-formulae
+          formula: borders
